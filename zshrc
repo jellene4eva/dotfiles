@@ -23,9 +23,11 @@ export PATH="/usr/local/heroku/bin:$PATH"
 ## ZSH CONFIG
 ## ----------------------------------------------------------------
 
-alias zr=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
-alias zshrc="vim ~/.zshrc && zr"
-alias vimrc="vim ~/.vimrc.after"
+alias zr=". ~/dotfiles/zshrc && echo 'ZSH config reloaded'"
+alias zshrc="vim ~/dotfiles/zshrc && zr"
+alias tmuxrc="vim ~/dotfiles/tmux.conf"
+alias vimrc="vim ~/dotfiles/vimrc.after"
+
 
 #terminal support 256-color
 export TERM="xterm-256color"
@@ -45,16 +47,6 @@ alias jfs='teamocil --here jfs'
 alias fs='foreman start'
 alias o='gnome-open'
 alias ag=' ag -iC 3'
-
-function zreload() {
-  echo "Restarting Zeus services..."
-  tmux send-keys -t tly-server.2 C-c
-  tmux send-keys -t tly-server.1 C-c
-  sleep 2
-  tmux send-keys -t tly-server.2 'zet' ENTER
-  tmux send-keys -t tly-server.1 'sleep 2 && zes' ENTER
-  echo "Zeus reloaded!"
-}
 
 # fix tmate / tmux version mismatch
 if [[ $TMUX =~ tmate ]]; then alias tmux=tmate; fi
@@ -82,28 +74,17 @@ function gfrsf() {
   git flow release finish $1
 }
 
-# Get branch name in underscores
-# Useful for Git-aware database.yml in Rails
-function gbdb() {
-  app_env=`rails r "print Rails.env"`
-  feature_branch=`echo "$(current_branch)" | tr '-' '_' | tr '/' '_'`
-  project_prefix="tly"
-
-  echo "Project prefix has been set to \"tly\""
-  echo "BRANCH NAME: ${project_prefix}_${app_env}_${feature_branch}"
-}
-
 ## GIT
 ## ----------------------------------------------------------------
 
 if [[ "$(pwd)" == /home/eva/Documents/Touristly.work/tly-frontend ]]; then
-  alias gl..='zr; git pull && npm install && bower install'
+  alias gl..='git pull && npm install && bower install'
 else
-  alias gl..='zr; git pull && bundle install && rake db:migrate'
+  alias gl..='git pull && bundle install && rake db:migrate'
 fi
 
 alias gcleanup='git branch --merged develop | grep -v develop | xargs git branch -d'
-alias gl#='git log -1 --pretty=%B | tail -n 2 | pbcopy'
+alias gl#='git log -1 --pretty=%B | grep "#" | pbcopy'
 
 
 ## ZEUS
@@ -111,7 +92,7 @@ alias gl#='git log -1 --pretty=%B | tail -n 2 | pbcopy'
 alias zet='zeus start'
 alias zes='zeus s'
 alias zec='zeus c'
-alias zrm='rm .zeus.sock'
+alias zrm='rm ~/Documents/Touristly.work/tly-backend/.zeus.sock'
 alias railslog='tail -f log/development.log'
 
 ## EMBER / NPM / BOWER
@@ -127,3 +108,54 @@ alias pbpaste='xsel --clipboard --output'
 ## ----------------------------------------------------------------
 alias sshshow='cat ~/.ssh/id_rsa.pub'
 alias sshcopy='cat ~/.ssh/id_rsa.pub | pbcopy; echo "Copied SSH public key to clipboard."'
+
+
+## MYSQL (https://github.com/kriskhaira/dotfiles/blob/master/zshrc.local)
+### ---------------------------------------------------------------
+
+# Get branch name in underscores
+# Useful for Git-aware database.yml in Rails
+# Requires prefix as the param (without underscore)
+function gbdb() {
+  app_env=`rails r "print Rails.env"`
+  feature_branch=`echo "$(current_branch)" | tr '-' '_' | tr '/' '_'`
+  project_prefix=$1
+
+  if [[ "$app_env" = 'development' ]]; then
+    app_env="dev"
+  fi
+
+  echo "${project_prefix}_${app_env}_${feature_branch}"
+}
+
+# Requires prefix as the param (without underscore)
+function setupgbdb() {
+  BRANCH_DB=$(gbdb $1)
+  mysqlcopydb $1_dev_develop $BRANCH_DB
+}
+
+function mysqlcopydb() {
+  DBSNAME=$1
+  DBNAME=$2
+
+  fCreateTable=""
+  fInsertData=""
+  echo "Copying database ... (may take a while ...)"
+  echo "DROP DATABASE IF EXISTS ${DBNAME}" | mysql --login-path=default
+  echo "CREATE DATABASE ${DBNAME}" | mysql --login-path=default
+  for TABLE in `echo "SHOW TABLES" | mysql --login-path=default $DBSNAME | tail -n +2`; do
+    createTable=`echo "SHOW CREATE TABLE ${TABLE}"|mysql --login-path=default -B -r $DBSNAME|tail -n +2|cut -f 2-`
+    fCreateTable="${fCreateTable} ; ${createTable}"
+    insertData="INSERT INTO ${DBNAME}.${TABLE} SELECT * FROM ${DBSNAME}.${TABLE}"
+    fInsertData="${fInsertData} ; ${insertData}"
+  done &&
+  echo "$fCreateTable ; $fInsertData" | mysql --login-path=default $DBNAME
+}
+
+
+## TIG
+## ----------------------------------------------------------------
+
+alias tiga='tig --all'
+alias ts='tig status'
+
