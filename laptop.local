@@ -1,0 +1,10 @@
+#!/bin/sh
+
+fancy_echo "Intalling Shutter"
+  sudo aptitude install -y shutter
+
+fancy_echo "Intalling Autokey"
+  sudo aptitude install -y autokey
+
+gem install foreman
+

@@ -72,7 +72,7 @@ fancy_echo "Installing tig, a CLI for git ..."
   sudo aptitude install -y tig
 
 fancy_echo "Installing libraries for common gem dependencies ..."
-  sudo aptitude install -y curl zlib1g-dev build-essential libyaml-dev libssl-dev libxslt1-dev libcurl4-openssl-dev libksba8 libksba-dev libqtwebkit-dev libreadline-dev
+  sudo aptitude install -y curl zlib1g-dev build-essential libyaml-dev libssl-dev libxslt1-dev libcurl4-openssl-dev libksba8 libksba-dev libqtwebkit-dev libreadline-dev libxml2-dev
 
 fancy_echo "Installing sqlite, a common database used by Ruby On Rails ..."
   sudo aptitude install -y sqlite3 libsqlite3-dev
@@ -100,7 +100,7 @@ fancy_echo "Changing your shell to zsh ..."
   chsh -s $(which zsh)
 
 fancy_echo "Installing Oh-My-Zsh plugin for zsh ..."
-sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+  sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
 
 
 #------------------------------------
