@@ -24,6 +24,15 @@ nmap <silent> <C-w>\| :vsplit<CR>
 "Toggle NERDTree folder explorer
 nmap <silent> <C-B> :NERDTreeToggle<CR>
 
+" Bind Ctrl-Del to delete current file
+nmap <silent> <C-w><del> :call delete(expand('%'))\|q!<CR>
+
+" Easier navigation (eg. Ctrl-H to move down)
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
 "Turn on Autoclose plugin
 let g:AutoClosePairs = {'(': ')', '{': '}', '[': ']', '"': '"', "'": "'", '#{': '}', '|':'|' }
 let g:AutoCloseProtectedRegions = ["Character"]
@@ -41,3 +50,6 @@ function! <SID>StripTrailingWhitespaces()
     call cursor(l, c)
 endfunction
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+
+" Allow mouse use in vim
+set mouse=a

@@ -44,7 +44,7 @@ alias syscleanup='clearcache; bleachcache'
 alias tkill='tmux kill-session && echo "tmux session killed"'
 alias tly='teamocil --here tly'
 alias jfs='teamocil --here jfs'
-alias fs='foreman start'
+alias fs='foreman start -f Procfile.dev'
 alias o='gnome-open'
 alias ag=' ag -iC 3'
 
