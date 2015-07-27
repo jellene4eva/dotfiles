@@ -1,4 +1,4 @@
-color railscasts
+color molokai
 
 "Maintain undo history between sessions
 set undofile
@@ -23,6 +23,8 @@ nmap <silent> <C-w>\| :vsplit<CR>
 
 "Toggle NERDTree folder explorer
 nmap <silent> <C-B> :NERDTreeToggle<CR>
+" Toggle commenting
+nmap <leader>\/ :NERDComToggleComment<CR>
 
 " Bind Ctrl-Del to delete current file
 nmap <silent> <C-w><del> :call delete(expand('%'))\|q!<CR>
@@ -32,6 +34,9 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" Set <F4> as Paste mode toggle
+set pastetoggle=<F4>
 
 "Turn on Autoclose plugin
 let g:AutoClosePairs = {'(': ')', '{': '}', '[': ']', '"': '"', "'": "'", '#{': '}', '|':'|' }
@@ -53,3 +58,8 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 " Allow mouse use in vim
 set mouse=a
+
+" Set indentation to 2 spaces
+set expandtab
+set shiftwidth=2
+set softtabstop=2

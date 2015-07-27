@@ -10,11 +10,11 @@ ZSH_THEME="robbyrussell"
 plugins=(git)
 
 # User configuration
-
-export PATH="/home/eva/.rbenv/plugins/ruby-build/bin:/home/eva/.rbenv/shims:/home/eva/.rbenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
 source $ZSH/oh-my-zsh.sh
-export TLY_BACKUPS="/home/eva/Documents/Touristly.work/Backups"
-
+export TLY_BACKUPS="$HOME/Documents/Touristly.work/Backups"
 export EDITOR='vim'
 
 ### Added by the Heroku Toolbelt
@@ -26,8 +26,7 @@ export PATH="/usr/local/heroku/bin:$PATH"
 alias zr=". ~/dotfiles/zshrc && echo 'ZSH config reloaded'"
 alias zshrc="vim ~/dotfiles/zshrc && zr"
 alias tmuxrc="vim ~/dotfiles/tmux.conf"
-alias vimrc="vim ~/dotfiles/vimrc.after"
-
+alias vimrc="vim ~/dotfiles/vimrc.local"
 
 #terminal support 256-color
 export TERM="xterm-256color"
@@ -54,10 +53,10 @@ if [[ $TMUX =~ tmate ]]; then alias tmux=tmate; fi
 ## SAVED DIRECTORY
 ## ----------------------------------------------------------------
 
-alias ..fend='cd /home/eva/Documents/Touristly.work/tly-frontend'
-alias ..bend='cd /home/eva/Documents/Touristly.work/tly-backend'
-alias ..tools='cd /home/eva/Documents/Touristly.work/tools'
-alias ..jfs='cd /home/eva/Documents/jfs_app'
+alias ..fend='cd $HOME/Documents/Touristly.work/tly-frontend'
+alias ..bend='cd $HOME/Documents/Touristly.work/tly-backend'
+alias ..tools='cd $HOME/Documents/Touristly.work/tools'
+alias ..jfs='cd $HOME/Documents/jfs_app'
 
 ## GIT FLOW
 ## ----------------------------------------------------------------
@@ -77,7 +76,7 @@ function gfrsf() {
 ## GIT
 ## ----------------------------------------------------------------
 
-if [[ "$(pwd)" == /home/eva/Documents/Touristly.work/tly-frontend ]]; then
+if [[ "$(pwd)" == ~/Documents/Touristly.work/tly-frontend ]]; then
   alias gl..='git pull && npm install && bower install'
 else
   alias gl..='git pull && bundle install && rake db:migrate'
