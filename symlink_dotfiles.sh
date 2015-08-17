@@ -12,6 +12,14 @@ if [ ! -f "$HOME/.vimrc.local" ]; then
   touch ~/.vimrc.local
 fi
 
+if [ ! -f "$HOME/.vimrc" ]; then
+  touch ~/.vimrc
+fi
+
+if [ ! -f "$HOME/.teamocil" ]; then
+  touch ~/.teamocil
+fi
+
 for i in `find $(pwd)/ -maxdepth 1`; do
   original_file=`basename $i`
   if [ -f "$HOME/.${original_file}" ]; then
