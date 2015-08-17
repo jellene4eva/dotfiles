@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #Welcome to Jellene's laptop script! This script is inspired by
 # thoughbot's discontinued linux laptop script. This script will
@@ -45,12 +45,6 @@ fi
 
 append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
 
-#Checks if distro is supported.
-if ! grep -qiE 'wheezy|jessie|precise|trusty' /etc/os-release; then
-  fancy_echo "Sorry! we don't currently support that distro."
-  exit 1
-fi
-
 #Install aptitude to maintain packages
 fancy_echo "Updating system packages ..."
   if command -v aptitude >/dev/null; then
@@ -67,6 +61,12 @@ fancy_echo "Updating system packages ..."
 #
 fancy_echo "Installing git, for source control management ..."
   sudo aptitude install -y git
+
+fancy_echo "Installing vim, best editor ever! ..."
+  sudo aptitude install -y vim
+
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+vim +PluginInstall +qall &> /dev/null
 
 fancy_echo "Installing libraries for common gem dependencies ..."
   sudo aptitude install -y curl zlib1g-dev build-essential libyaml-dev libssl-dev libxslt1-dev libcurl4-openssl-dev libksba8 libksba-dev libqtwebkit-dev libreadline-dev libxml2-dev
@@ -91,7 +91,7 @@ fancy_echo "Installing checkinstall, for easy package removal ..."
 
 #Switch to zsh shell
 fancy_echo "Changing your shell to zsh ..."
-  chsh -s $(which zsh)
+  sudo chsh -s $(which zsh)
 
 fancy_echo "Installing Oh-My-Zsh plugin for zsh ..."
   sh -c "$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
