@@ -1,5 +1,13 @@
 color molokai
 
+"Fix vim redraw issue on tmux
+set t_ut=
+
+"Fix text wrapping
+:set nowrap
+:set textwidth=0
+:set wrapmargin=0
+
 "Maintain undo history between sessions
 set undofile
 
@@ -63,3 +71,12 @@ set mouse=a
 set expandtab
 set shiftwidth=2
 set softtabstop=2
+
+" Use ag for ctrlp instead of globpath()
+let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
+      \ --ignore .git
+      \ --ignore .svn
+      \ --ignore .hg
+      \ --ignore .DS_Store
+      \ --ignore "**/*.pyc"
+      \ -g ""'

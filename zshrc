@@ -16,6 +16,8 @@ eval "$(rbenv init -)"
 source $ZSH/oh-my-zsh.sh
 export TLY_BACKUPS="$HOME/Documents/Touristly.work/Backups"
 export EDITOR='vim'
+export ANDROID_HOME="/home/jellene/Android/Sdk"
+export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform_tools:$PATH"
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
@@ -93,6 +95,17 @@ alias zes='zeus s'
 alias zec='zeus c'
 alias zrm='rm ~/Documents/Touristly.work/tly-backend/.zeus.sock'
 alias railslog='tail -f log/development.log'
+function fsr() {
+  tmux send-keys -t server.2 C-c Enter
+  sleep 2
+  tmux send-keys -t server.2 "fs" Enter
+  while true; do
+    if $(`pgrep foreman > /dev/null`); then
+      echo "foreman restarted"
+      break
+    fi
+  done
+}
 
 ## EMBER / NPM / BOWER
 ## ----------------------------------------------------------------
@@ -140,15 +153,15 @@ function mysqlcopydb() {
   fCreateTable=""
   fInsertData=""
   echo "Copying database ... (may take a while ...)"
-  echo "DROP DATABASE IF EXISTS ${DBNAME}" | mysql --login-path=default
-  echo "CREATE DATABASE ${DBNAME}" | mysql --login-path=default
-  for TABLE in `echo "SHOW TABLES" | mysql --login-path=default $DBSNAME | tail -n +2`; do
-    createTable=`echo "SHOW CREATE TABLE ${TABLE}"|mysql --login-path=default -B -r $DBSNAME|tail -n +2|cut -f 2-`
+  echo "DROP DATABASE IF EXISTS ${DBNAME}" | mysql --login-path=touristly
+  echo "CREATE DATABASE ${DBNAME}" | mysql --login-path=touristly
+  for TABLE in `echo "SHOW TABLES" | mysql --login-path=touristly $DBSNAME | tail -n +2`; do
+    createTable=`echo "SHOW CREATE TABLE ${TABLE}"|mysql --login-path=touristly -B -r $DBSNAME|tail -n +2|cut -f 2-`
     fCreateTable="${fCreateTable} ; ${createTable}"
     insertData="INSERT INTO ${DBNAME}.${TABLE} SELECT * FROM ${DBSNAME}.${TABLE}"
     fInsertData="${fInsertData} ; ${insertData}"
   done &&
-  echo "$fCreateTable ; $fInsertData" | mysql --login-path=default $DBNAME
+  echo "$fCreateTable ; $fInsertData" | mysql --login-path=touristly $DBNAME
 }
 
 

@@ -68,9 +68,6 @@ fancy_echo "Updating system packages ..."
 fancy_echo "Installing git, for source control management ..."
   sudo aptitude install -y git
 
-fancy_echo "Installing tig, a CLI for git ..."
-  sudo aptitude install -y tig
-
 fancy_echo "Installing libraries for common gem dependencies ..."
   sudo aptitude install -y curl zlib1g-dev build-essential libyaml-dev libssl-dev libxslt1-dev libcurl4-openssl-dev libksba8 libksba-dev libqtwebkit-dev libreadline-dev libxml2-dev
 
@@ -80,12 +77,6 @@ fancy_echo "Installing sqlite, a common database used by Ruby On Rails ..."
 fancy_echo "Installing Postgres, a good open source relational database ..."
   sudo aptitude install -y postgresql postgresql-server-dev-all
 
-fancy_echo "Installing tmux, to save project state and switch between projects ..."
-  sudo aptitude install -y tmux
-
-fancy_echo "Installing teamocil, to automate tmux state and quickly start projects ..."
-  sudo aptitude install -y teamocil
-
 fancy_echo "Installing ImageMagick, to crop and resize images ..."
   sudo aptitude install -y imagemagick
 
@@ -94,6 +85,9 @@ fancy_echo "Installing zsh, a better more customizable terminal ..."
 
 fancy_echo "Installing node, to render the rails asset pipeline ..."
   sudo aptitude install -y nodejs
+
+fancy_echo "Installing checkinstall, for easy package removal ..."
+  sudo aptitude install -y checkinstall
 
 #Switch to zsh shell
 fancy_echo "Changing your shell to zsh ..."
@@ -176,11 +170,39 @@ fancy_echo "Configuring Bundler for faster, parallel gem installation ..."
   number_of_cores=$(nproc)
   bundle config --global jobs $((number_of_cores - 1))
 
+#---------------------------------------
+# Tmux installation
+#
+
+mkdir ~/Applications
+
+git clone git@github.com:tmux/tmux.git ~/Applications
+cd ~/Applications/tmux
+sh autogen.sh
+./configure && make
+checkinstall -y sudo make install
+
+#---------------------------------------
+# lnav installation
+#
+
+git clone git@github.com:tstack/lnav.git ~/Applications
+cd ~/Applications/lnav
+./configure && make
+checkinstall -y sudo make install
+
+#---------------------------------------
+# tig installation
+#
+
+git clone git@github.com:jonas/tig.git ~/Applications
+cd ~/Applications/tig
+./configure && make
+checkinstall -y sudo make install
+
 #------------------------------------
 # All other personal installation will be installed from .laptop.local
 #
 fancy_echo "Installing your personal additions from ~/.laptop.local ..."
-  if [[ -f ~/.laptop.local ]]; then
-    source ~/.laptop.local
-  fi
+  source ~/Scripts/laptop.local
 
