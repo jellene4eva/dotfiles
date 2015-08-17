@@ -1,0 +1,14 @@
+windows:
+  - name: "server"
+    layout: 47cd,227x52,0,0{132x52,0,0,0,94x52,133,0[94x25,133,0,1,94x26,133,26,2]}
+    root: ~/Documents/jfs_app
+    panes:
+      - lnav -c ":goto -10" log/development.log
+      - foreman start -f Procfile.dev
+      - sleep 2; zec
+  - name: "editor"
+    root: ~/Documents/jfs_app
+    panes:
+      - vim
+      - cd .
+  - name: console

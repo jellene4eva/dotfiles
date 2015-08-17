@@ -1,0 +1,20 @@
+windows:
+  - name: "server"
+    layout: 0934,227x52,0,0{126x52,0,0,0,100x52,127,0[100x14,127,0,1,100x18,127,15,2,100x18,127,34,9]}
+    root: ~/Documents/Touristly.work/tly-backend
+    panes:
+      - lnav -c ":goto -10" log/development.log
+      - foreman start -f Procfile.dev
+      - ..fend; ebs
+      - glances
+  - name: "backend"
+    root: ~/Documents/Touristly.work/tly-backend
+    panes:
+      - vim
+      - cd .
+  - name: "frontend"
+    root: ~/Documents/Touristly.work/tly-frontend
+    panes:
+      - vim
+      - cd .
+  - name: console
