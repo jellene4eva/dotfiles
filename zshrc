@@ -14,13 +14,23 @@ export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 source $ZSH/oh-my-zsh.sh
-export TLY_BACKUPS="$HOME/Documents/Touristly.work/Backups"
 export EDITOR='vim'
 export ANDROID_HOME="/home/jellene/Android/Sdk"
 export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform_tools:$PATH"
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+
+export TLY="$HOME/Code/tly"
+export TLY_BACKUPS="$TLY/Backups"
+
+## SAVED DIRECTORY
+## ----------------------------------------------------------------
+
+alias ..fend='cd $TLY/tly-frontend'
+alias ..bend='cd $TLY/tly-backend'
+alias ..tools='cd $TLY/tools'
+alias ..jfs='cd $HOME/Code/jfs_app'
 
 ## ZSH CONFIG
 ## ----------------------------------------------------------------
@@ -52,14 +62,6 @@ alias ag=' ag -iC 3'
 # fix tmate / tmux version mismatch
 if [[ $TMUX =~ tmate ]]; then alias tmux=tmate; fi
 
-## SAVED DIRECTORY
-## ----------------------------------------------------------------
-
-alias ..fend='cd $HOME/Documents/Touristly.work/tly-frontend'
-alias ..bend='cd $HOME/Documents/Touristly.work/tly-backend'
-alias ..tools='cd $HOME/Documents/Touristly.work/tools'
-alias ..jfs='cd $HOME/Documents/jfs_app'
-
 ## GIT FLOW
 ## ----------------------------------------------------------------
 alias gfs='git flow feature start'
@@ -78,7 +80,7 @@ function gfrsf() {
 ## GIT
 ## ----------------------------------------------------------------
 
-if [[ "$(pwd)" == ~/Documents/Touristly.work/tly-frontend ]]; then
+if [[ "$(pwd)" == $TLY/tly-frontend ]]; then
   alias gl..='git pull && npm install && bower install'
 else
   alias gl..='git pull && bundle install && rake db:migrate'
@@ -171,3 +173,5 @@ function mysqlcopydb() {
 alias tiga='tig --all'
 alias ts='tig status'
 
+
+export PATH="$HOME/.bin:$PATH"

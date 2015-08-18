@@ -45,6 +45,18 @@ fi
 
 append_to_zshrc 'export PATH="$HOME/.bin:$PATH"'
 
+# Method to check for Ruby Gems
+gem_install_or_update() {
+  if gem list "$1" --installed > /dev/null; then
+    fancy_echo "Updating %s ..." "$1"
+    gem update "$@"
+  else
+    fancy_echo "Installing %s ..." "$1"
+    gem install "$@"
+    rbenv rehash
+  fi
+}
+
 #Install aptitude to maintain packages
 fancy_echo "Updating system packages ..."
   if command -v aptitude >/dev/null; then
@@ -54,7 +66,7 @@ fancy_echo "Updating system packages ..."
     sudo apt-get install -y aptitude
   fi
 
-  sudo aptitude update
+  #sudo aptitude update
 
 #----------------------------------
 # APT Package installation
@@ -62,14 +74,19 @@ fancy_echo "Updating system packages ..."
 fancy_echo "Installing git, for source control management ..."
   sudo aptitude install -y git
 
+fancy_echo "Installing git flow, for git branching model ..."
+  sudo aptitude install -y git-flow
+
 fancy_echo "Installing vim, best editor ever! ..."
   sudo aptitude install -y vim
 
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+if [[ ! -d "$HOME/.vim" ]]; then
+  git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+fi
 vim +PluginInstall +qall &> /dev/null
 
 fancy_echo "Installing libraries for common gem dependencies ..."
-  sudo aptitude install -y curl zlib1g-dev build-essential libyaml-dev libssl-dev libxslt1-dev libcurl4-openssl-dev libksba8 libksba-dev libqtwebkit-dev libreadline-dev libxml2-dev
+  sudo aptitude install -y libgpm-dev libpcre3 libpcre3-dev libevent-dev libncurses-dev automake autotools-dev curl zlib1g-dev build-essential libyaml-dev libssl-dev libxslt1-dev libcurl4-openssl-dev libksba8 libksba-dev libqtwebkit-dev libreadline-dev libxml2-dev
 
 fancy_echo "Installing sqlite, a common database used by Ruby On Rails ..."
   sudo aptitude install -y sqlite3 libsqlite3-dev
@@ -84,7 +101,7 @@ fancy_echo "Installing zsh, a better more customizable terminal ..."
   sudo aptitude install -y zsh
 
 fancy_echo "Installing node, to render the rails asset pipeline ..."
-  sudo aptitude install -y nodejs
+  sudo aptitude install -y nodejs nodejs-dev npm
 
 fancy_echo "Installing checkinstall, for easy package removal ..."
   sudo aptitude install -y checkinstall
@@ -174,31 +191,39 @@ fancy_echo "Configuring Bundler for faster, parallel gem installation ..."
 # Tmux installation
 #
 
-mkdir ~/Applications
+if [[ ! -d "$HOME/Applications" ]]; then
+  mkdir ~/Applications
+fi
 
-git clone git@github.com:tmux/tmux.git ~/Applications
-cd ~/Applications/tmux
-sh autogen.sh
-./configure && make
-checkinstall -y sudo make install
+if ! type tmux 2>/dev/null; then
+  git clone git@github.com:tmux/tmux.git ~/Applications/tmux
+  cd ~/Applications/tmux
+  ./autogen.sh
+  ./configure && make
+  sudo checkinstall -y make install
+fi
 
 #---------------------------------------
 # lnav installation
 #
-
-git clone git@github.com:tstack/lnav.git ~/Applications
-cd ~/Applications/lnav
-./configure && make
-checkinstall -y sudo make install
+if ! type lnav 2>/dev/null; then
+  git clone git@github.com:tstack/lnav.git ~/Applications/lnav
+  cd ~/Applications/lnav
+  ./autogen.sh
+  ./configure && make
+  sudo checkinstall -y make install
+fi
 
 #---------------------------------------
 # tig installation
 #
-
-git clone git@github.com:jonas/tig.git ~/Applications
-cd ~/Applications/tig
-./configure && make
-checkinstall -y sudo make install
+if ! type tig 2>/dev/null; then
+  git clone git@github.com:jonas/tig.git ~/Applications/tig
+  cd ~/Applications/tig
+  ./autogen.sh
+  ./configure && make
+  sudo checkinstall -y make install
+fi
 
 #------------------------------------
 # All other personal installation will be installed from .laptop.local
