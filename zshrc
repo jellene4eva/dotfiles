@@ -95,15 +95,15 @@ alias gl#='git log -1 --pretty=%B | grep "#" | pbcopy'
 alias zet='zeus start'
 alias zes='zeus s'
 alias zec='zeus c'
-alias zrm='rm ~/Documents/Touristly.work/tly-backend/.zeus.sock'
+alias zrm='rm $TLY/tly-backend/.zeus.sock'
 alias railslog='tail -f log/development.log'
 function fsr() {
   tmux send-keys -t server.2 C-c Enter
   sleep 2
   tmux send-keys -t server.2 "fs" Enter
   while true; do
-    if $(`pgrep foreman > /dev/null`); then
-      echo "foreman restarted"
+    if $(`pgrep zeus > /dev/null`); then
+      echo "zeus restarted"
       break
     fi
   done
