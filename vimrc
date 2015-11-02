@@ -20,6 +20,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-fugitive'
 Plugin 'terryma/vim-multiple-cursors'
+Plugin 'ngmy/vim-rubocop'
 
 " Style plugins
 Plugin 'tomasr/molokai'
@@ -28,6 +29,7 @@ Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'tpope/vim-haml'
 Plugin 'tpope/vim-rails'
+Plugin 'kchmck/vim-coffee-script'
 Plugin 'hsanson/vim-android'
 
 " All of your Plugins must be added before the following line
@@ -44,5 +46,11 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
+
+"Read atlas files as json
+au! BufRead,BufNewFile *.atlas setfiletype javascript
+au! BufRead,BufNewFile *.json setfiletype javascript
+au! BufRead,BufNewFile *.kv setfiletype haml
+
 
 source ~/.vimrc.local
