@@ -10,8 +10,14 @@ windows:
 
   - name: "backend"
     root: ~/Code/tly/tly-backend
+    panes:
+      - vim
+      - .
 
   - name: "frontend"
     root: ~/Code/tly/tly-frontend
+    panes:
+      - vim
+      - .
 
   - name: console
