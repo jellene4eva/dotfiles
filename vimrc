@@ -31,6 +31,8 @@ Plugin 'tpope/vim-haml'
 Plugin 'tpope/vim-rails'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'hsanson/vim-android'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'nathanaelkane/vim-indent-guides'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

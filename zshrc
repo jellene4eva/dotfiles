@@ -22,6 +22,7 @@ export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform_tools:$PATH"
 export PATH="/usr/local/heroku/bin:$PATH"
 
 export TLY="$HOME/Code/tly"
+export YGM="$HOME/Code/ygm"
 export TLY_BACKUPS="$TLY/Backups"
 
 ## SAVED DIRECTORY
@@ -31,6 +32,15 @@ alias ..fend='cd $TLY/tly-frontend'
 alias ..bend='cd $TLY/tly-backend'
 alias ..tools='cd $TLY/tools'
 alias ..jfs='cd $HOME/Code/jfs_app'
+alias ..ygm='cd $YGM/yogame'
+alias ..ygi='cd $YGM/yogame-ui'
+
+## PROJECT START
+## ----------------------------------------------------------------
+
+alias tly='teamocil --here tly'
+alias jfs='teamocil --here jfs'
+alias ygm='teamocil --here ygm'
 
 ## ZSH CONFIG
 ## ----------------------------------------------------------------
@@ -53,8 +63,6 @@ alias clearcache='sudo sh -c "sync; echo 3 > /proc/sys/vm/drop_caches" && echo C
 alias bleachcache='sudo bleachbit -c firefox.cache chromium.cache libreoffice.cache apt.autoclean apt.autoremove system.trash system.cache system.tmp '
 alias syscleanup='clearcache; bleachcache'
 alias tkill='tmux kill-session && echo "tmux session killed"'
-alias tly='teamocil --here tly'
-alias jfs='teamocil --here jfs'
 alias fs='foreman start -f Procfile.dev'
 alias o='gnome-open'
 alias ag=' ag -iC 3'
@@ -108,6 +116,12 @@ function fsr() {
     fi
   done
 }
+
+## PYTHON
+## ----------------------------------------------------------------
+alias src='source env/bin/activate'
+alias djsh='python manage.py shell'
+alias djsh+='python manage.py shell_plus'
 
 ## EMBER / NPM / BOWER
 ## ----------------------------------------------------------------

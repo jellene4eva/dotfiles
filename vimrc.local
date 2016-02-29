@@ -56,12 +56,18 @@ set expandtab
 set shiftwidth=2
 set softtabstop=2
 
+" Set indentation for python to 4 spaces
+autocmd FileType python set sw=4
+autocmd FileType python set ts=4
+autocmd FileType python set sts=4
+
 " Use ag for ctrlp instead of globpath()
 let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
       \ --ignore .git
       \ --ignore .svn
       \ --ignore .hg
       \ --ignore .DS_Store
+      \ --ignore env/
       \ --ignore "**/*.pyc"
       \ -g ""'
 
@@ -72,10 +78,13 @@ let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
 " Ctrl-N Ctrl-N toggles line numbers
 nmap <C-N><C-N> :set invnumber<CR>
 
+" Ctrl-i Ctrl-i toggles indent guides
+nmap <C-i><C-i> :IndentGuidesToggle<CR>
+
 " Map split panes similar to tmux (requires escape\ for |)
 " - for vertical split, | for horizontal split
-nmap <silent> <C-w>- :split<CR>
-nmap <silent> <C-w>\| :vsplit<CR>
+nmap <C-w>- :split<CR>
+nmap <C-w>\| :vsplit<CR>
 
 " Ctrl-B Toggle NERDTree folder explorer
 nmap <silent> <C-B> :NERDTreeToggle<CR>

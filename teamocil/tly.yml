@@ -3,7 +3,7 @@ windows:
     layout: 0934,227x52,0,0{126x52,0,0,0,100x52,127,0[100x14,127,0,1,100x18,127,15,2,100x18,127,34,9]}
     root: ~/Code/tly/tly-backend
     panes:
-      - lnav -c ":goto -10" log/development.log
+      - ..bend; lnav -c ":goto -10" log/development.log log/importer.log
       - foreman start -f Procfile.dev
       - ..fend; ebs
       - glances
@@ -12,12 +12,12 @@ windows:
     root: ~/Code/tly/tly-backend
     panes:
       - vim
-      - .
+      - mailcatcher
 
   - name: "frontend"
     root: ~/Code/tly/tly-frontend
     panes:
       - vim
-      - .
+      - cd .
 
   - name: console

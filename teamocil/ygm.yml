@@ -1,0 +1,16 @@
+windows:
+  - name: "server"
+    panes:
+      - ..ygm; source env/bin/activate; python manage.py runserver_plus
+      - ..ygi; ionic serve
+  - name: "backend"
+    root: ~/Code/ygm/yogame
+    panes:
+      - vim
+      - cd .
+  - name: "frontend"
+    root: ~/Code/ygm/yogame-ui
+    panes:
+      - vim
+      - cd .
+  - name: console
