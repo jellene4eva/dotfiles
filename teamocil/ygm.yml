@@ -1,8 +1,10 @@
 windows:
   - name: "server"
+    layout: 0934,227x52,0,0{126x52,0,0,0,100x52,127,0[100x14,127,0,1,100x18,127,15,2,100x18,127,34,9]}
     panes:
-      - ..ygm; source env/bin/activate; python manage.py runserver_plus
       - ..ygi; ionic serve
+      - ..ygm; source env/bin/activate; fs
+      - glances
   - name: "backend"
     root: ~/Code/ygm/yogame
     panes:
@@ -14,3 +16,5 @@ windows:
       - vim
       - cd .
   - name: console
+    panes:
+      - mailcatcher -vf

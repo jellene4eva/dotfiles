@@ -1,0 +1,7 @@
+windows:
+  - name: "server"
+    layout: 327b,273x65,0,0{204x65,0,0,24,68x65,205,0[68x32,205,0,25,68x32,205,33,26]}
+    panes:
+      - ..inf; vim
+      - ..inf; ng serve
+      - ..inf; cd .

@@ -23,6 +23,7 @@ export PATH="/usr/local/heroku/bin:$PATH"
 
 export TLY="$HOME/Code/tly"
 export YGM="$HOME/Code/ygm"
+export INF="$HOME/Code/infinity"
 export TLY_BACKUPS="$TLY/Backups"
 
 ## SAVED DIRECTORY
@@ -34,6 +35,7 @@ alias ..tools='cd $TLY/tools'
 alias ..jfs='cd $HOME/Code/jfs_app'
 alias ..ygm='cd $YGM/yogame'
 alias ..ygi='cd $YGM/yogame-ui'
+alias ..inf='cd $INF/magicloud-inf'
 
 ## PROJECT START
 ## ----------------------------------------------------------------
@@ -41,6 +43,7 @@ alias ..ygi='cd $YGM/yogame-ui'
 alias tly='teamocil --here tly'
 alias jfs='teamocil --here jfs'
 alias ygm='teamocil --here ygm'
+alias inf='teamocil --here inf'
 
 ## ZSH CONFIG
 ## ----------------------------------------------------------------
@@ -109,12 +112,6 @@ function fsr() {
   tmux send-keys -t server.2 C-c Enter
   sleep 2
   tmux send-keys -t server.2 "fs" Enter
-  while true; do
-    if $(`pgrep zeus > /dev/null`); then
-      echo "zeus restarted"
-      break
-    fi
-  done
 }
 
 ## PYTHON
@@ -189,3 +186,6 @@ alias ts='tig status'
 
 
 export PATH="$HOME/.bin:$PATH"
+
+export NVM_DIR="/home/jellene/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

@@ -29,10 +29,13 @@ Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'tpope/vim-haml'
 Plugin 'tpope/vim-rails'
+Plugin 'burnettk/vim-angular'
 Plugin 'kchmck/vim-coffee-script'
-Plugin 'hsanson/vim-android'
+Plugin 'leafgarland/typescript-vim'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'othree/yajs.vim'
+Plugin 'pangloss/vim-javascript'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

@@ -48,18 +48,26 @@ function! <SID>StripTrailingWhitespaces()
 endfunction
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
+function! SetupEnvironment()
+  let l:path = expand('%:p')
+  if l:path =~ '/home/jellene/Code/infinity/'
+    setlocal expandtab smarttab textwidth=0
+    setlocal tabstop=4 shiftwidth=4
+  endif
+  if l:path =~ '/home/jellene/Code/ygm/yogame-ui'
+    setlocal expandtab smarttab textwidth=0
+    setlocal tabstop=2 shiftwidth=2
+  endif
+endfunction
+autocmd! BufReadPost,BufNewFile * call SetupEnvironment()
+
 " Allow mouse use in vim
 set mouse=a
 
-" Set indentation to 2 spaces
+" Set indentation to 4 spaces
 set expandtab
-set shiftwidth=2
-set softtabstop=2
-
-" Set indentation for python to 4 spaces
-autocmd FileType python set sw=4
-autocmd FileType python set ts=4
-autocmd FileType python set sts=4
+set shiftwidth=4
+set softtabstop=4
 
 " Use ag for ctrlp instead of globpath()
 let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
@@ -103,3 +111,6 @@ set pastetoggle=<F4>
 
 " Allow yanking to clipboard
 set clipboard=unnamedplus
+
+" Syntastic hack for typescript bug. See: https://github.com/leafgarland/typescript-vim/issues/47
+let g:syntastic_typescript_tsc_args = "-t ES5 -m commonjs --experimentalDecorators --emitDecoratorMetadata --sourceMap true --moduleResolution node"
