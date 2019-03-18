@@ -15,15 +15,18 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 source $ZSH/oh-my-zsh.sh
 export EDITOR='vim'
-export ANDROID_HOME="/home/jellene/Android/Sdk"
-export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform_tools:$PATH"
+export ANDROID_HOME=${HOME}/Android/Sdk
+export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform_tools:${ANDROID_HOME}/emulator:$PATH"
+export PATH="$PATH:/usr/lib/jvm/java-8-openjdk/bin"
+export PATH="$PATH:/opt/gradle/gradle-4.2.1/bin"
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
 export TLY="$HOME/Code/tly"
 export YGM="$HOME/Code/ygm"
-export INF="$HOME/Code/infinity"
+export GDH="$HOME/Code/goodhum"
 export TLY_BACKUPS="$TLY/Backups"
 
 ## SAVED DIRECTORY
@@ -35,15 +38,14 @@ alias ..tools='cd $TLY/tools'
 alias ..jfs='cd $HOME/Code/jfs_app'
 alias ..ygm='cd $YGM/yogame'
 alias ..ygi='cd $YGM/yogame-ui'
-alias ..inf='cd $INF/magicloud-inf'
+alias ..gdh='cd $GDH/'
 
 ## PROJECT START
 ## ----------------------------------------------------------------
 
 alias tly='teamocil --here tly'
-alias jfs='teamocil --here jfs'
 alias ygm='teamocil --here ygm'
-alias inf='teamocil --here inf'
+alias gdh='teamocil --here inf'
 
 ## ZSH CONFIG
 ## ----------------------------------------------------------------
@@ -52,6 +54,11 @@ alias zr=". ~/dotfiles/zshrc && echo 'ZSH config reloaded'"
 alias zshrc="vim ~/dotfiles/zshrc && zr"
 alias tmuxrc="vim ~/dotfiles/tmux.conf"
 alias vimrc="vim ~/dotfiles/vimrc.local"
+
+## CUSTOM SCRIPTS ~/Scripts
+## ----------------------------------------------------------------
+
+alias httpsserver="~/Scripts/https-server.py"
 
 #terminal support 256-color
 export TERM="xterm-256color"
@@ -97,8 +104,13 @@ else
   alias gl..='git pull && bundle install && rake db:migrate'
 fi
 
-alias gcleanup='git branch --merged develop | grep -v develop | xargs git branch -d'
+function gcleanup() {
+  echo "Cleaning up $1 ..."
+  git branch --merged $1 | grep -v "(^\*|master|develop|$1)" | xargs git branch -d
+}
+
 alias gl#='git log -1 --pretty=%B | grep "#" | pbcopy'
+alias ggpush!='git push --force-with-lease origin $current_branch'
 
 
 ## ZEUS

@@ -15,27 +15,28 @@ Plugin 'gmarik/Vundle.vim'
 " Keep Plugin commands between vundle#begin/end.
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-fugitive'
 Plugin 'terryma/vim-multiple-cursors'
-Plugin 'ngmy/vim-rubocop'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'tpope/vim-surround'
+Plugin 'rking/ag.vim'
 
 " Style plugins
-Plugin 'tomasr/molokai'
-Plugin 'jpo/vim-railscasts-theme'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'tpope/vim-haml'
 Plugin 'tpope/vim-rails'
 Plugin 'burnettk/vim-angular'
-Plugin 'kchmck/vim-coffee-script'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'othree/yajs.vim'
 Plugin 'pangloss/vim-javascript'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'Quramy/tsuquyomi'
+Plugin 'vim-scripts/Zenburn'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

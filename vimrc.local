@@ -1,20 +1,27 @@
-color molokai
+colors zenburn
+syntax enable
 
 "change background color after 80char line
-highlight ColorColumn ctermbg=232 guibg=#2c2d27
+highlight ColorColumn ctermbg=233 guibg=#2c2d27
 let &colorcolumn=join(range(81,999),",")
 
 "------------------------------------------
 " BEHAVIOR
 "------------------------------------------
 
+set path+=**
+set wildmenu
+
+"Allow use of backspace
+set backspace=indent,eol,start
+
 "Fix vim redraw issue on tmux
 set t_ut=
 
 "Fix text wrapping
-:set nowrap
-:set textwidth=0
-:set wrapmargin=0
+set nowrap
+set textwidth=0
+set wrapmargin=0
 
 "Maintain undo history between sessions
 set undofile
@@ -29,10 +36,6 @@ set statusline=%f "tail of the filename
 "Open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
-
-"Turn on Autoclose plugin
-let g:AutoClosePairs = {'(': ')', '{': '}', '[': ']', '"': '"', "'": "'", '#{': '}', '|':'|' }
-let g:AutoCloseProtectedRegions = ["Character"]
 
 " Strip trailing whitespace
 function! <SID>StripTrailingWhitespaces()
@@ -50,7 +53,7 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 function! SetupEnvironment()
   let l:path = expand('%:p')
-  if l:path =~ '/home/jellene/Code/infinity/'
+  if l:path =~ '/home/jellene/Code/goodhum/'
     setlocal expandtab smarttab textwidth=0
     setlocal tabstop=4 shiftwidth=4
   endif
@@ -75,6 +78,7 @@ let g:ctrlp_user_command = 'ag %s -i --nocolor --nogroup --hidden
       \ --ignore .svn
       \ --ignore .hg
       \ --ignore .DS_Store
+      \ --ignore node_modules
       \ --ignore env/
       \ --ignore "**/*.pyc"
       \ -g ""'
@@ -89,6 +93,9 @@ nmap <C-N><C-N> :set invnumber<CR>
 " Ctrl-i Ctrl-i toggles indent guides
 nmap <C-i><C-i> :IndentGuidesToggle<CR>
 
+" Ctrl-l redraw screen
+nmap <C-w>l :redraw!<CR>
+
 " Map split panes similar to tmux (requires escape\ for |)
 " - for vertical split, | for horizontal split
 nmap <C-w>- :split<CR>
@@ -96,6 +103,9 @@ nmap <C-w>\| :vsplit<CR>
 
 " Ctrl-B Toggle NERDTree folder explorer
 nmap <silent> <C-B> :NERDTreeToggle<CR>
+
+" NERDCoomenter extra space after //
+let NERDSpaceDelims=1
 
 " Bind Ctrl-Del to delete current file
 nmap <silent> <C-w><del> :call delete(expand('%'))\|q!<CR>
@@ -112,5 +122,31 @@ set pastetoggle=<F4>
 " Allow yanking to clipboard
 set clipboard=unnamedplus
 
+"------------------------------------------
+" SYNTASTIC SETTINGS
+"------------------------------------------
+
 " Syntastic hack for typescript bug. See: https://github.com/leafgarland/typescript-vim/issues/47
-let g:syntastic_typescript_tsc_args = "-t ES5 -m commonjs --experimentalDecorators --emitDecoratorMetadata --sourceMap true --moduleResolution node"
+let g:syntastic_typescript_tsc_args = "--experimentalDecorators"
+let g:syntastic_typescript_checkers=['tsc']
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_typescript_tsc_fname = ''
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_error_symbol = '❌'
+let g:syntastic_style_error_symbol = '⁉️'
+let g:syntastic_warning_symbol = '⚠️'
+let g:syntastic_style_warning_symbol = '💩'
+
+highlight link SyntasticErrorSign SignColumn
+highlight link SyntasticWarningSign SignColumn
+highlight link SyntasticStyleErrorSign SignColumn
+highlight link SyntasticStyleWarningSign SignColumn
