@@ -10,9 +10,6 @@ ZSH_THEME="robbyrussell"
 plugins=(git)
 
 # User configuration
-export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
 source $ZSH/oh-my-zsh.sh
 export EDITOR='vim'
 export ANDROID_HOME=${HOME}/Android/Sdk
@@ -21,30 +18,16 @@ export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/platform_tools:${ANDROID_HOME}/em
 export PATH="$PATH:/usr/lib/jvm/java-8-openjdk/bin"
 export PATH="$PATH:/opt/gradle/gradle-4.2.1/bin"
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
-export TLY="$HOME/Code/tly"
-export YGM="$HOME/Code/ygm"
 export GDH="$HOME/Code/goodhum"
-export TLY_BACKUPS="$TLY/Backups"
 
 ## SAVED DIRECTORY
 ## ----------------------------------------------------------------
 
-alias ..fend='cd $TLY/tly-frontend'
-alias ..bend='cd $TLY/tly-backend'
-alias ..tools='cd $TLY/tools'
-alias ..jfs='cd $HOME/Code/jfs_app'
-alias ..ygm='cd $YGM/yogame'
-alias ..ygi='cd $YGM/yogame-ui'
 alias ..gdh='cd $GDH/'
 
 ## PROJECT START
 ## ----------------------------------------------------------------
 
-alias tly='teamocil --here tly'
-alias ygm='teamocil --here ygm'
 alias gdh='teamocil --here inf'
 
 ## ZSH CONFIG
@@ -73,36 +56,11 @@ alias clearcache='sudo sh -c "sync; echo 3 > /proc/sys/vm/drop_caches" && echo C
 alias bleachcache='sudo bleachbit -c firefox.cache chromium.cache libreoffice.cache apt.autoclean apt.autoremove system.trash system.cache system.tmp '
 alias syscleanup='clearcache; bleachcache'
 alias tkill='tmux kill-session && echo "tmux session killed"'
-alias fs='foreman start -f Procfile.dev'
 alias o='gnome-open'
 alias ag=' ag -iC 3'
 
-# fix tmate / tmux version mismatch
-if [[ $TMUX =~ tmate ]]; then alias tmux=tmate; fi
-
-## GIT FLOW
-## ----------------------------------------------------------------
-alias gfs='git flow feature start'
-alias gff='git flow feature finish'
-alias gfd='git flow feature delete'
-alias gfrs='git flow release start'
-alias gfrf='git flow release finish'
-
-# Start and finish new release
-function gfrsf() {
-  echo "Starting and finishing new release"
-  git flow release start $1
-  git flow release finish $1
-}
-
 ## GIT
 ## ----------------------------------------------------------------
-
-if [[ "$(pwd)" == $TLY/tly-frontend ]]; then
-  alias gl..='git pull && npm install && bower install'
-else
-  alias gl..='git pull && bundle install && rake db:migrate'
-fi
 
 function gcleanup() {
   echo "Cleaning up $1 ..."
@@ -113,18 +71,6 @@ alias gl#='git log -1 --pretty=%B | grep "#" | pbcopy'
 alias ggpush!='git push --force-with-lease origin $current_branch'
 
 
-## ZEUS
-## ----------------------------------------------------------------
-alias zet='zeus start'
-alias zes='zeus s'
-alias zec='zeus c'
-alias zrm='rm $TLY/tly-backend/.zeus.sock'
-alias railslog='tail -f log/development.log'
-function fsr() {
-  tmux send-keys -t server.2 C-c Enter
-  sleep 2
-  tmux send-keys -t server.2 "fs" Enter
-}
 
 ## PYTHON
 ## ----------------------------------------------------------------
@@ -132,9 +78,6 @@ alias src='source env/bin/activate'
 alias djsh='python manage.py shell'
 alias djsh+='python manage.py shell_plus'
 
-## EMBER / NPM / BOWER
-## ----------------------------------------------------------------
-alias ebs='ember serve'
 
 ## Copy Paste
 ## ----------------------------------------------------------------
@@ -147,49 +90,6 @@ alias sshshow='cat ~/.ssh/id_rsa.pub'
 alias sshcopy='cat ~/.ssh/id_rsa.pub | pbcopy; echo "Copied SSH public key to clipboard."'
 
 
-## MYSQL (https://github.com/kriskhaira/dotfiles/blob/master/zshrc.local)
-### ---------------------------------------------------------------
-
-# Get branch name in underscores
-# Useful for Git-aware database.yml in Rails
-# Requires prefix as the param (without underscore)
-function gbdb() {
-  app_env=`rails r "print Rails.env"`
-  feature_branch=`echo "$(current_branch)" | tr '-' '_' | tr '/' '_'`
-  project_prefix=$1
-
-  if [[ "$app_env" = 'development' ]]; then
-    app_env="dev"
-  fi
-
-  echo "${project_prefix}_${app_env}_${feature_branch}"
-}
-
-# Requires prefix as the param (without underscore)
-function setupgbdb() {
-  BRANCH_DB=$(gbdb $1)
-  mysqlcopydb $1_dev_develop $BRANCH_DB
-}
-
-function mysqlcopydb() {
-  DBSNAME=$1
-  DBNAME=$2
-
-  fCreateTable=""
-  fInsertData=""
-  echo "Copying database ... (may take a while ...)"
-  echo "DROP DATABASE IF EXISTS ${DBNAME}" | mysql --login-path=touristly
-  echo "CREATE DATABASE ${DBNAME}" | mysql --login-path=touristly
-  for TABLE in `echo "SHOW TABLES" | mysql --login-path=touristly $DBSNAME | tail -n +2`; do
-    createTable=`echo "SHOW CREATE TABLE ${TABLE}"|mysql --login-path=touristly -B -r $DBSNAME|tail -n +2|cut -f 2-`
-    fCreateTable="${fCreateTable} ; ${createTable}"
-    insertData="INSERT INTO ${DBNAME}.${TABLE} SELECT * FROM ${DBSNAME}.${TABLE}"
-    fInsertData="${fInsertData} ; ${insertData}"
-  done &&
-  echo "$fCreateTable ; $fInsertData" | mysql --login-path=touristly $DBNAME
-}
-
-
 ## TIG
 ## ----------------------------------------------------------------
 
@@ -200,4 +100,4 @@ alias ts='tig status'
 export PATH="$HOME/.bin:$PATH"
 
 export NVM_DIR="/home/jellene/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nv
